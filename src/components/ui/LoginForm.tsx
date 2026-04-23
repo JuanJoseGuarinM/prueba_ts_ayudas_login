@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import Link from 'next/link';
 
-export default function RegisterForm() {
+export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
@@ -26,14 +26,13 @@ export default function RegisterForm() {
             }
             await Swal.fire({
                 title: `Bienvenid@ ${email}!`,
-                text: 'Tu cuenta ha sido creada.',
+                text: 'Tu sesion se inicio correctamente.',
                 icon: 'success',
                 timer: 2000,
                 showConfirmButton: false,
             });
 
-            localStorage.setItem("usuario-logueado", JSON.stringify({ email }));
-            //router.push('/dasboard');
+            router.push('/dashboard');
 
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : "Ocurrió un problema";

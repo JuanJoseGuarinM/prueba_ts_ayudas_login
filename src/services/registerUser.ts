@@ -1,28 +1,33 @@
 import { User } from "@/types/user";
 import prisma from "@/lib/db";
 import { hashPassword } from "@/lib/hash";
+import { normalizeEmail, validateRegisterInput } from "@/lib/validation";
 
 export async function registerUser(user: User): Promise<void> {
+    const validatedUser = validateRegisterInput({
+        nombre: user.nombre ?? "",
+        apellido: user.apellido ?? "",
+        email: user.email,
+        password: user.password,
+        confirmPassword: user.confirmPassword,
+    });
 
     const validateRegister = await prisma.user.findUnique({
-        where: { email: user.email }
+        where: { email: normalizeEmail(validatedUser.email) }
     });
 
     if (validateRegister) {
-        throw new Error("Error registrando usuario existente");
+        throw new Error("El correo ya esta registrado");
     }
 
-    const hashed = await hashPassword(user.password);
+    const hashed = await hashPassword(validatedUser.password);
 
     await prisma.user.create({
         data: {
-            email: user.email,
+            email: normalizeEmail(validatedUser.email),
             password: hashed,
-            nombre: user.nombre,
-            apellido: user.apellido
+            nombre: validatedUser.nombre,
+            apellido: validatedUser.apellido
         }
     });
-
-
-
 }

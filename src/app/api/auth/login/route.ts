@@ -1,19 +1,24 @@
 import { LoginUser } from "@/services/loginUser";
+import { setAuthCookies } from "@/lib/auth";
+import { validateLoginInput } from "@/lib/validation";
 import { NextResponse } from "next/server";
 
 
 export async function POST(req: Request) {
     try {
-        const { email, password } = await req.json();
-        if (!email || !password) {
-            return NextResponse.json(
-                { message: "Campos requeridos" },
-                { status: 400 }
-            );
-        }
-        const token = await LoginUser({ email, password });
+        const body = await req.json();
+        const validatedBody = validateLoginInput(body);
+        const token = await LoginUser(validatedBody);
+        await setAuthCookies(token);
 
-        return NextResponse.json(token);
+        return NextResponse.json(
+            {
+                message: "Inicio de sesion exitoso",
+                user: token.user,
+                accessToken: token.accessToken,
+            },
+            { status: 200 }
+        );
 
     } catch (error: unknown) {
 

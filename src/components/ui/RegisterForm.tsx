@@ -7,6 +7,7 @@ import Link from 'next/link';
 export default function RegisterForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
     const router = useRouter();
@@ -18,7 +19,7 @@ export default function RegisterForm() {
             const res = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nombre, apellido, email, password }),
+                body: JSON.stringify({ nombre, apellido, email, password, confirmPassword }),
             });
 
             const data = await res.json();
@@ -29,13 +30,12 @@ export default function RegisterForm() {
 
             await Swal.fire({
                 title: '¡Registro Exitoso!',
-                text: 'Tu cuenta ha sido creada.',
+                text: 'Tu cuenta ha sido creada. Ahora puedes iniciar sesion.',
                 icon: 'success',
                 timer: 2000,
                 showConfirmButton: false,
             });
 
-            localStorage.setItem("usuario-registrado", JSON.stringify({ nombre, apellido, email }));
             router.push('/login');
 
         } catch (err: unknown) {
@@ -95,6 +95,20 @@ export default function RegisterForm() {
                     className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
+                />
+                <p className="text-xs text-gray-500 ml-1">
+                    Debe incluir 8 caracteres, mayuscula, minuscula, numero y simbolo.
+                </p>
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-400 ml-1">Confirmar Contraseña</label>
+                <input
+                    type="password"
+                    placeholder="••••••••"
+                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
                 />
             </div>
 
