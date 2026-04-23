@@ -7,6 +7,8 @@ import Link from 'next/link';
 export default function RegisterForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
     const router = useRouter();
 
     async function handleSubmit(e: React.FormEvent) {
@@ -16,7 +18,7 @@ export default function RegisterForm() {
             const res = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ nombre, apellido, email, password }),
             });
 
             const data = await res.json();
@@ -33,7 +35,7 @@ export default function RegisterForm() {
                 showConfirmButton: false,
             });
 
-            localStorage.setItem("usuario-registrado", JSON.stringify({ email }));
+            localStorage.setItem("usuario-registrado", JSON.stringify({ nombre, apellido, email }));
             router.push('/login');
 
         } catch (err: unknown) {
@@ -53,11 +55,33 @@ export default function RegisterForm() {
             <h2 className="text-xl font-semibold text-white/90 text-center mb-2">Crea tu cuenta</h2>
 
             <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-400 ml-1">Nombre</label>
+                <input
+                    type="text"
+                    placeholder="Tu nombre"
+                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    value={nombre}
+                    onChange={e => setNombre(e.target.value)}
+                />
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-400 ml-1">Apellido</label>
+                <input
+                    type="text"
+                    placeholder="Tu apellido"
+                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    value={apellido}
+                    onChange={e => setApellido(e.target.value)}
+                />
+            </div>
+
+            <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-400 ml-1">Correo Electrónico</label>
                 <input
                     type="email"
                     placeholder="ejemplo@correo.com"
-                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
@@ -68,7 +92,7 @@ export default function RegisterForm() {
                 <input
                     type="password"
                     placeholder="••••••••"
-                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />

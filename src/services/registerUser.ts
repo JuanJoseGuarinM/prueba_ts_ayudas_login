@@ -9,7 +9,7 @@ export async function registerUser(user: User): Promise<void> {
     });
 
     if (validateRegister) {
-        throw new Error("Error registrando usuario ya existe");
+        throw new Error("Error registrando usuario existente");
     }
 
     const hashed = await hashPassword(user.password);
@@ -17,7 +17,9 @@ export async function registerUser(user: User): Promise<void> {
     await prisma.user.create({
         data: {
             email: user.email,
-            password: hashed
+            password: hashed,
+            nombre: user.nombre,
+            apellido: user.apellido
         }
     });
 

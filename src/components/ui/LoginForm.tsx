@@ -55,7 +55,7 @@ export default function RegisterForm() {
                 <input
                     type="email"
                     placeholder="ejemplo@correo.com"
-                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
@@ -66,7 +66,7 @@ export default function RegisterForm() {
                 <input
                     type="password"
                     placeholder="••••••••"
-                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                    className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
